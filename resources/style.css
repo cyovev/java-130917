@@ -1,0 +1,6 @@
+body {
+    -fx-background-color: #FCFCFC;
+}
+.wide-button {
+    -fx-pref-width: 200px;
+}
