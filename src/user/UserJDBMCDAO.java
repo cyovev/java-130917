@@ -313,5 +313,25 @@ public class UserJDBMCDAO extends Model implements UserDao {
 
         return false;
     }
+    
+    ///////////////////////////////////////////////////////////////////////////
+    public void closeDatabaseResources() {
+        try {
+            if (this.connection != null) {
+                this.connection.close();
+            }
+            
+            if (this.ps != null) {
+                this.ps.close();
+            }
+            
+            if (this.rs != null) {
+                this.rs.close();
+            }
+        }
+        catch (Exception e) {
+            System.out.println(e.getMessage());
+        }
+    }
 
 }

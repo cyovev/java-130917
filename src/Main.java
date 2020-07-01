@@ -68,7 +68,20 @@ public class Main extends Application {
             stage.show();
         }
         catch (Exception e) {
-            showErrorDialog(e.getMessage());
+            // if there's an error message in the controller,
+            // the exception was most probably SQL-related – show it
+            if (controller != null) {
+                controller.closeDatabaseResources();
+                
+                if (!controller.isEmpty(controller.getErrorMessage())) {
+                    showErrorDialog(controller.getErrorMessage());
+                }
+            }
+            
+            // otherwise display the exception message
+            else {
+                showErrorDialog(e.getMessage());
+            }
         }
 
     }
@@ -156,7 +169,7 @@ public class Main extends Application {
         Menu menu = new Menu("File");
         
         // the «Add» menu item should switch to the add scene
-        MenuItem add = new MenuItem("Add");
+        MenuItem add = new MenuItem("Add Student");
         add.setOnAction(new EventHandler<ActionEvent>() {
             public void handle(ActionEvent t) {
                 stage.setScene(addScene);
@@ -541,6 +554,7 @@ public class Main extends Application {
 
         Optional<ButtonType> result = showDialog.showAndWait();
         if (result.get() == ButtonType.OK) {
+            controller.closeDatabaseResources();
             Platform.exit();
         }
     }
